@@ -1,0 +1,2 @@
+# SpringMongo
+Spring with Mongo
