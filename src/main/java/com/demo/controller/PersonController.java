@@ -20,7 +20,7 @@ import com.demo.service.PersonService;
  *
  */
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/persons")
 public class PersonController {
 	
 	@Autowired
