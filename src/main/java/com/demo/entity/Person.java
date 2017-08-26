@@ -1,8 +1,5 @@
 package com.demo.entity;
 
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
@@ -20,13 +17,14 @@ public class Person {
 	private String id;
 	private String firstName;
 	private String lastName;
-	private Date startDate;
-	private LocalDate endDate;
+	
+	private String startDate;
+	private String endDate;
 	
 	public Person() {
 	}
 	
-	public Person(String firstName, String lastName, Date startDate, LocalDate endDate) {
+	public Person(String firstName, String lastName, String startDate, String endDate) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.startDate = startDate;
@@ -47,16 +45,16 @@ public class Person {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public LocalDate getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	

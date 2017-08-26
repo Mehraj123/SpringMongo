@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.entity.Person;
+import com.demo.model.PersonVM;
 import com.demo.service.PersonService;
 
 /**
@@ -44,7 +45,7 @@ public class PersonController {
 	 * @return
 	 */
 	@PostMapping
-	public ResponseEntity<String> save(@RequestBody Person person){
+	public ResponseEntity<String> save(@RequestBody PersonVM person){
 		System.out.println("--- save ----");
 		return personService.savePerson(person)
 					.map((status)->new ResponseEntity<>("Saved successfully", HttpStatus.OK))

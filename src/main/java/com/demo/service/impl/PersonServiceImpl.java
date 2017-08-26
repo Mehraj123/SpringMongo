@@ -1,5 +1,6 @@
 package com.demo.service.impl;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.demo.entity.Person;
+import com.demo.model.PersonVM;
 import com.demo.repository.PersonRepository;
 import com.demo.service.PersonService;
+import com.demo.util.DateConverter;
 import com.mongodb.MongoException;
 
 /**
@@ -19,13 +22,13 @@ import com.mongodb.MongoException;
  *
  */
 @Service
-public class PersonServiceImpl implements PersonService{
+public class PersonServiceImpl implements PersonService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	private PersonRepository personRepository;
-	
+
 	@Override
 	public Optional<Person> getPersonById(String id) {
 		// TODO Auto-generated method stub
@@ -48,15 +51,22 @@ public class PersonServiceImpl implements PersonService{
 	 * @author Mehraj Malik
 	 */
 	@Override
-	public Optional<Boolean> savePerson(Person person) {
+	public Optional<Boolean> savePerson(PersonVM personModel) {
 		logger.info("---- savePerson ---");
 		try {
+			Person person = new Person();
+			person.setFirstName(personModel.getFirstName());
+			person.setLastName(personModel.getLastName());
+			person.setStartDate(DateConverter.validateDateTime(personModel.getStartDate()));
+			person.setEndDate(DateConverter.validateDateTime(personModel.getEndDate()));
 			personRepository.save(person);
 			return Optional.ofNullable(Boolean.TRUE);
+		} catch (ParseException e) {
+			logger.error("Exception occured while parsing the date : ", e);
 		} catch (MongoException e) {
-			logger.error("Exception occured while saving Person into Mongo DB ", e);
+			logger.error("Exception occured while saving Person into Mongo DB : ", e);
 		} catch (Exception e) {
-			logger.error("Exception occured while fetching all Person from Mongo DB ", e);
+			logger.error("Exception occured while fetching all Person from Mongo DB :", e);
 		}
 		return Optional.empty();
 	}
@@ -73,11 +83,11 @@ public class PersonServiceImpl implements PersonService{
 	@Override
 	public Optional<List<Person>> getAllPerson() {
 		try {
-			 List<Person> persons = personRepository.findAll();
-			 return Optional.ofNullable(persons);
+			List<Person> persons = personRepository.findAll();
+			return Optional.ofNullable(persons);
 		} catch (MongoException e) {
 			logger.error("Exception occured while fetching all Person from Mongo DB ", e);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			logger.error("Exception occured while fetching all Person from Mongo DB ", e);
 		}
 		return Optional.empty();

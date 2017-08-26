@@ -5,20 +5,19 @@ import java.time.LocalDateTime;
 /**
  * 
  * @author Mehraj Malik
- * <p> Mongo collection for Person
  */
 public class PersonVM {
 	
 	private String id;
 	private String firstName;
 	private String lastName;
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private String startDate;
+	private String endDate;
 	
 	public PersonVM() {
 	}
 	
-	public PersonVM(String firstName, String lastName, LocalDateTime startDate, LocalDateTime endDate) {
+	public PersonVM(String firstName, String lastName, String startDate, String endDate) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.startDate = startDate;
@@ -42,16 +41,16 @@ public class PersonVM {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public LocalDateTime getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(LocalDateTime startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public LocalDateTime getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(LocalDateTime endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	
