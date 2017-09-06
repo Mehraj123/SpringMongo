@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.demo.entity.Person;
+import com.demo.exception.CustomExceptionCode;
+import com.demo.exception.CustomParameterizedException;
 import com.demo.model.PersonVM;
 import com.demo.repository.PersonRepository;
 import com.demo.service.PersonService;
 import com.demo.util.DateConverter;
-import com.mongodb.MongoException;
+import static com.demo.util.ExceptionSupplierFactory.*;
 
 /**
  * 
@@ -52,7 +54,7 @@ public class PersonServiceImpl implements PersonService {
 	 */
 	@Override
 	public Optional<Boolean> savePerson(PersonVM personModel) {
-		logger.info("---- savePerson ---");
+		logger.info("---- savePerson service called ---");
 		try {
 			Person person = new Person();
 			person.setFirstName(personModel.getFirstName());
@@ -62,13 +64,13 @@ public class PersonServiceImpl implements PersonService {
 			personRepository.save(person);
 			return Optional.ofNullable(Boolean.TRUE);
 		} catch (ParseException e) {
-			logger.error("Exception occured while parsing the date : ", e);
-		} catch (MongoException e) {
-			logger.error("Exception occured while saving Person into Mongo DB : ", e);
+			logger.error(CustomExceptionCode.DB_FETCH_ERROR.getErrMsg());
+			throw new CustomParameterizedException(CustomExceptionCode.DATE_PARSE_EXCEPTION.getErrMsg(),
+					CustomExceptionCode.DATE_PARSE_EXCEPTION.getErrCode());
 		} catch (Exception e) {
-			logger.error("Exception occured while fetching all Person from Mongo DB :", e);
+			logger.error(CustomExceptionCode.DB_FETCH_ERROR.getErrMsg());
+			throw dbFetchError().get();
 		}
-		return Optional.empty();
 	}
 
 	@Override
@@ -82,15 +84,14 @@ public class PersonServiceImpl implements PersonService {
 	 */
 	@Override
 	public Optional<List<Person>> getAllPerson() {
+		logger.info("--- getAllPerson service called ---");
 		try {
 			List<Person> persons = personRepository.findAll();
 			return Optional.ofNullable(persons);
-		} catch (MongoException e) {
-			logger.error("Exception occured while fetching all Person from Mongo DB ", e);
 		} catch (Exception e) {
-			logger.error("Exception occured while fetching all Person from Mongo DB ", e);
+			logger.error(CustomExceptionCode.DB_FETCH_ERROR.getErrMsg());
+			throw dbFetchError().get();
 		}
-		return Optional.empty();
 	}
 
 }

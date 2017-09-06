@@ -1,11 +1,12 @@
 package com.demo.controller;
 
-import java.util.Collections;
+import static com.demo.util.FunctionFactory.biFunction;
+import static com.demo.util.FunctionFactory.boolBiFunction;
+import static com.demo.util.SuccessCode.FETCHED_SUCCESSFULLY;
+import static com.demo.util.SuccessCode.SAVED_SUCCESSFULLY;
+import static com.demo.util.SupplierFactory.emptyRespone;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.demo.model.PersonVM;
 import com.demo.service.PersonService;
 import com.demo.util.CustomeResponse;
-import com.demo.util.FailedCode;
-import com.demo.util.SuccessCode;
 
 /**
  * 
@@ -28,7 +27,7 @@ import com.demo.util.SuccessCode;
 @RequestMapping("/persons")
 public class PersonController {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	//private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private PersonService personService;
@@ -39,14 +38,9 @@ public class PersonController {
 	 */
 	@GetMapping
 	public ResponseEntity<CustomeResponse> searchAll() {
-		logger.info("--- searchAll ----");
 		return personService.getAllPerson()
-				.map((persons) -> new ResponseEntity<>(
-						new CustomeResponse(SuccessCode.FETCHED_SUCCESSFULLY.getCode(), personService.getAllPerson().get()),
-						HttpStatus.OK))
-				.orElse(new ResponseEntity<CustomeResponse>(
-						new CustomeResponse(FailedCode.FETCHED_FAILED.getCode(), Collections.emptyList()),
-						HttpStatus.OK));
+				.map((persons) ->biFunction.apply(FETCHED_SUCCESSFULLY.getCode(),persons) )
+				.orElse(emptyRespone().get());
 	}
 
 	/**
@@ -55,14 +49,9 @@ public class PersonController {
 	 */
 	@PostMapping
 	public ResponseEntity<CustomeResponse> save(@RequestBody PersonVM person) {
-		logger.info("---- save ---");
 		return personService.savePerson(person)
-				.map((status) -> new ResponseEntity<>(
-						new CustomeResponse(SuccessCode.SAVED_SUCCESSFULLY.getCode(), status.booleanValue()),
-						HttpStatus.OK))
-				.orElse(new ResponseEntity<CustomeResponse>(
-						new CustomeResponse(FailedCode.SAVED_FAILED.getCode(), Collections.emptyList()),
-						HttpStatus.OK));
+				.map((status) -> boolBiFunction.apply(SAVED_SUCCESSFULLY.getCode(),status))
+				.orElse(emptyRespone().get());
 
 	}
 }

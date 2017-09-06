@@ -9,12 +9,12 @@ package com.demo.util;
 public class CustomeResponse {
 
 	private final boolean status;
-	private final Object statusCode;
+	private final Object errCode;
 	private final Object data;
 	
-	public CustomeResponse(Object statusCode, Object data) {
+	public CustomeResponse(Object errCode, Object data) {
 		this.status = true;
-		this.statusCode = statusCode;
+		this.errCode = errCode;
 		this.data = data;
 	}
 	
@@ -26,14 +26,12 @@ public class CustomeResponse {
 		return status;
 	}
 
-	public Object getStatusCode() {
-		return statusCode;
+	public Object getErrCode() {
+		return errCode;
 	}
 
 	public Object getData() {
 		return data;
 	}
-	
-	
-	
+
 }
