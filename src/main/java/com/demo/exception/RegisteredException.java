@@ -12,7 +12,8 @@ public enum RegisteredException {
 	CONSTRAINT_VIOLATION_EXCEPTION("ConstraintViolationException"),
 	METHOD_NOT_ALLOWED("HttpRequestMethodNotSupportedException"),
 	UNKNOWN_EXCEPTION("Unknown Exception"),
-	ACCESS_DENIED_EXCEPTION("AccessDeniedException");
+	ACCESS_DENIED_EXCEPTION("AccessDeniedException"),
+	HOTEL_EXCEPTION("Hotel Exception");
 
 	private final String exception;
 	
