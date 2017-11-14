@@ -26,7 +26,7 @@ public class HotelController {
 
 	@Autowired
 	private HotelService hotelService;
-	
+
 	@Autowired
 	private HotelRepository hotelRepository;
 
@@ -43,4 +43,12 @@ public class HotelController {
 						HttpStatus.OK))
 				.orElse(SupplierFactory.emptyRespone().get());
 	}
+
+	@GetMapping("/countries")
+	public ResponseEntity<CustomeResponse> searchAllCountries() {
+		return new ResponseEntity<CustomeResponse>(
+				new CustomeResponse(FETCHED_SUCCESSFULLY.getCode(), hotelService.getAllCountries()), HttpStatus.OK);
+	}
+
+
 }

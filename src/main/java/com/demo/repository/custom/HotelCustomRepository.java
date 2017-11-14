@@ -16,4 +16,6 @@ public interface HotelCustomRepository {
 	public List<Hotel> findByRatingGTE(int rating);
 
 	public Optional<List<UnwindHotel>> customMethod();
+	
+	public List<Hotel> getAllCountries();
 }

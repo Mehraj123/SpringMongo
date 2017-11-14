@@ -14,4 +14,5 @@ public interface HotelService {
 
 	public Optional<List<Hotel>>  findByRatingGTE(int rating);
 	//public Optional<List<Hotel>> customMethod();
+	public List<Hotel> getAllCountries();
 }

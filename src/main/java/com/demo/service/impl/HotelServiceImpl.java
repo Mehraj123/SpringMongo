@@ -6,11 +6,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.MatchOperation;
-import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
-import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import com.demo.entity.Hotel;
@@ -31,7 +26,7 @@ public class HotelServiceImpl implements HotelService {
 
 	@Autowired
 	private HotelRepository hotelRepository;
-
+ 
 	@Override
 	public Optional<List<Hotel>> findByRatingGTE(int rating) {
 		try {
@@ -44,7 +39,12 @@ public class HotelServiceImpl implements HotelService {
 		}
 	}
 
+	@Override
+	public List<Hotel> getAllCountries(){
+		return hotelRepository.getAllCountries();
+	}
 
+	
 	
 	/*@Override
 	public Optional<List<Hotel>> customMethod() {
